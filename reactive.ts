@@ -17,50 +17,64 @@ function reactive(obj) {
 
 function effect(cb, options?: { scheduler? }) {
   const effectFn = () => {
+    cleanup(effectFn);
     activeEffect = effectFn;
     cb();
     activeEffect = null;
   };
+  effectFn.deps = [];
   effectFn();
 }
 
+function cleanup(effect) {
+  for (let i = 0; i < effect.deps.length; i++) {
+    effect.deps[i].delete(effect);
+  }
+  effect.length = 0;
+}
+
 function trigger(obj, prop) {
-  const curMap = bucket.get(obj);
-  if (!curMap) return;
-  const currentEffects = curMap.get(prop);
-  currentEffects &&
-    currentEffects.forEach(eff => {
+  const objMap = bucket.get(obj);
+  if (!objMap) return;
+  const propEffects = objMap.get(prop);
+  const effectsToRun: Set<(...args) => any> = new Set();
+  propEffects &&
+    propEffects.forEach(eff => {
       if (activeEffect !== eff) {
-        eff();
+        effectsToRun.add(eff);
       }
     });
+  effectsToRun.forEach(eff => eff());
 }
 
 function track(obj, prop) {
   if (!activeEffect) return;
-  let eff = bucket.get(obj);
-  if (!eff) {
-    eff = new Map();
-    bucket.set(obj, eff);
+  let objMap = bucket.get(obj);
+  if (!objMap) {
+    objMap = new Map();
+    bucket.set(obj, objMap);
   }
-  let propEff = eff.get(prop);
-  if (!propEff) {
-    propEff = new Set();
-    eff.set(prop, propEff);
+  let propEffects = objMap.get(prop);
+  if (!propEffects) {
+    propEffects = new Set();
+    objMap.set(prop, propEffects);
   }
-  propEff.add(activeEffect);
+  propEffects.add(activeEffect);
+  activeEffect.deps.push(propEffects);
 }
 
 const a = reactive({ a: 1, b: 2 });
 effect(() => {
-  console.log(a.a); // 1 4
-  a.a = 5;
+  console.log(a.a);
 });
-effect(() => {
-  console.log(a.b); // 2 5
-});
+// effect(() => {
+//   console.log(a.b);
+// });
 a.a = 4;
-a.b = 5;
-effect(() => {
-  console.log(a.b); // 5
-});
+a.a = 5;
+a.a = 6;
+// a.b = 3;
+// a.b = 5;
+// effect(() => {
+//   console.log(a.b);
+// });
