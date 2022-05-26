@@ -1,5 +1,6 @@
 const bucket: WeakMap<Object, Map<PropertyKey, Set<(...args) => any>>> = new WeakMap();
 let activeEffect;
+const activeStack = [];
 
 function reactive(obj) {
   return new Proxy(obj, {
@@ -19,8 +20,10 @@ function effect(cb, options?: { scheduler? }) {
   const effectFn = () => {
     cleanup(effectFn);
     activeEffect = effectFn;
+    activeStack.push(effectFn);
     cb();
-    activeEffect = null;
+    activeStack.pop();
+    activeEffect = activeStack[activeStack.length - 1];
   };
   effectFn.deps = [];
   effectFn();
@@ -65,14 +68,15 @@ function track(obj, prop) {
 
 const a = reactive({ a: 1, b: 2 });
 effect(() => {
+  effect(() => {
+    console.log(a.b);
+  });
   console.log(a.a);
 });
 // effect(() => {
 //   console.log(a.b);
 // });
 a.a = 4;
-a.a = 5;
-a.a = 6;
 // a.b = 3;
 // a.b = 5;
 // effect(() => {
