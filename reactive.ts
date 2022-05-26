@@ -54,7 +54,7 @@ function track(obj, prop) {
 const a = reactive({ a: 1, b: 2 });
 effect(() => {
   console.log(a.a); // 1 4
-  a.a = 4;
+  a.a = 5;
 });
 effect(() => {
   console.log(a.b); // 2 5
