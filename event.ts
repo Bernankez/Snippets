@@ -36,9 +36,8 @@ function test(e) {
   console.log(e);
 }
 
-$emit("click", { x: 0, y: 0 });
-$emit("click", { x: 0, y: 0 });
+$emit("click", { x: 0, y: 0 }); // {x:0,y:0} dd
 $off("click", test);
-$emit("click", { x: 0, y: 0 });
+$emit("click", { x: 0, y: 0 }); // dd
 $off("click");
-$emit("click", { x: 0, y: 0 });
+$emit("click", { x: 0, y: 0 }); //
