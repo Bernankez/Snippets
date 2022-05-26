@@ -15,7 +15,7 @@ function reactive(obj) {
   });
 }
 
-function effect(cb, scheduler?) {
+function effect(cb, options?: { scheduler? }) {
   const effectFn = () => {
     activeEffect = effectFn;
     cb();
