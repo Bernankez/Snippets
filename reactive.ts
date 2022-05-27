@@ -29,9 +29,9 @@ function effect(cb, options?: { scheduler?; immediate? }) {
   effectFn.options = options;
   effectFn.deps = [];
   if (options && options.immediate) {
-    options.scheduler(effectFn);
+    return options.scheduler(effectFn);
   } else {
-    effectFn();
+    return effectFn();
   }
 }
 
@@ -114,7 +114,20 @@ function watch(dep: () => any, cb: (newValue, oldValue) => any, options?: { imme
 
 const watchEffect = effect;
 
+function computed(cb) {
+  return {
+    get value() {
+      return effect(cb, {
+        scheduler: fn => fn(),
+      });
+    },
+  };
+}
+
 const a = reactive({ a: 1, b: 2 });
+
+const c = computed(() => a.b);
+console.log(c.value); // 2
 
 watch(
   () => a.a,
