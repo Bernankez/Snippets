@@ -16,18 +16,23 @@ function reactive(obj) {
   });
 }
 
-function effect(cb, options?: { scheduler? }) {
+function effect(cb, options?: { scheduler?; immediate? }) {
   const effectFn = () => {
     cleanup(effectFn);
     activeEffect = effectFn;
     activeStack.push(effectFn);
-    cb();
+    let rtn = cb();
     activeStack.pop();
     activeEffect = activeStack[activeStack.length - 1];
+    return rtn;
   };
   effectFn.options = options;
   effectFn.deps = [];
-  effectFn();
+  if (options && options.immediate) {
+    options.scheduler(effectFn);
+  } else {
+    effectFn();
+  }
 }
 
 function cleanup(effect) {
@@ -41,7 +46,7 @@ function trigger(obj, prop) {
   const objMap = bucket.get(obj);
   if (!objMap) return;
   const propEffects = objMap.get(prop);
-  const effectsToRun: Set<{ (...args): any; options? }> = new Set();
+  const effectsToRun: Set<{ (...args): any; options?; lastValue? }> = new Set();
   propEffects &&
     propEffects.forEach(eff => {
       if (activeEffect !== eff) {
@@ -73,37 +78,52 @@ function track(obj, prop) {
   activeEffect.deps.push(propEffects);
 }
 
-function createScheduler() {
+function createScheduler(type: "lazy") {
   const queue: Set<{ (...args): any; options?: { scheduler? } }> = new Set();
   const task = Promise.resolve();
   let isFlushing = false;
 
-  return function (fn) {
-    queue.add(fn);
-    if (isFlushing) return;
-    isFlushing = true;
-    task
-      .then(() => {
-        queue.forEach(fun => fun());
-      })
-      .finally(() => {
-        isFlushing = false;
-      });
-  };
+  switch (type) {
+    case "lazy":
+      return function (fn) {
+        queue.add(fn);
+        if (isFlushing) return;
+        isFlushing = true;
+        task
+          .then(() => {
+            queue.forEach(fun => fun());
+          })
+          .finally(() => {
+            isFlushing = false;
+          });
+      };
+  }
 }
 
+function watch(dep: () => any, cb: (newValue, oldValue) => any, options?: { immediate? }) {
+  effect(dep, {
+    scheduler: function (fn) {
+      const cur = fn();
+      cb(cur, fn.lastValue);
+      fn.lastValue = cur;
+      return cur;
+    },
+    immediate: options?.immediate,
+  });
+}
+
+const watchEffect = effect;
+
 const a = reactive({ a: 1, b: 2 });
-effect(
-  () => {
-    console.log(a.a); // 1,6,7
+
+watch(
+  () => a.a,
+  (newVal, oldVal) => {
+    console.log(newVal, oldVal); // 1 undefined, 4 1, 5 4
   },
   {
-    scheduler: createScheduler(),
+    immediate: true,
   }
 );
 a.a = 4;
 a.a = 5;
-a.a = 6;
-setTimeout(() => {
-  a.a = 7;
-}, 100);
