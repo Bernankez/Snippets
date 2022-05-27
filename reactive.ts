@@ -73,27 +73,32 @@ function track(obj, prop) {
   activeEffect.deps.push(propEffects);
 }
 
+function createScheduler() {
+  const queue: Set<{ (...args): any; options?: { scheduler? } }> = new Set();
+  const task = Promise.resolve();
+  let isFlushing = false;
+
+  return function (fn) {
+    queue.add(fn);
+    if (isFlushing) return;
+    isFlushing = true;
+    task
+      .then(() => {
+        queue.forEach(fun => fun());
+      })
+      .finally(() => {
+        isFlushing = false;
+      });
+  };
+}
+
 const a = reactive({ a: 1, b: 2 });
-const queue: Set<{ (...args): any; options?: { scheduler? } }> = new Set();
-const task = Promise.resolve();
-let isFlushing = false;
 effect(
   () => {
     console.log(a.a); // 1,6,7
   },
   {
-    scheduler: function (fn) {
-      queue.add(fn);
-      if (isFlushing) return;
-      isFlushing = true;
-      task
-        .then(() => {
-          queue.forEach(fun => fun());
-        })
-        .finally(() => {
-          isFlushing = false;
-        });
-    },
+    scheduler: createScheduler(),
   }
 );
 a.a = 4;
