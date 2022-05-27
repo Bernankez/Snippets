@@ -25,6 +25,7 @@ function effect(cb, options?: { scheduler? }) {
     activeStack.pop();
     activeEffect = activeStack[activeStack.length - 1];
   };
+  effectFn.options = options;
   effectFn.deps = [];
   effectFn();
 }
@@ -40,14 +41,20 @@ function trigger(obj, prop) {
   const objMap = bucket.get(obj);
   if (!objMap) return;
   const propEffects = objMap.get(prop);
-  const effectsToRun: Set<(...args) => any> = new Set();
+  const effectsToRun: Set<{ (...args): any; options? }> = new Set();
   propEffects &&
     propEffects.forEach(eff => {
       if (activeEffect !== eff) {
         effectsToRun.add(eff);
       }
     });
-  effectsToRun.forEach(eff => eff());
+  effectsToRun.forEach(eff => {
+    if (eff.options && eff.options.scheduler) {
+      eff.options.scheduler(eff);
+    } else {
+      eff();
+    }
+  });
 }
 
 function track(obj, prop) {
@@ -67,18 +74,31 @@ function track(obj, prop) {
 }
 
 const a = reactive({ a: 1, b: 2 });
-effect(() => {
-  effect(() => {
-    console.log(a.b);
-  });
-  console.log(a.a);
-});
-// effect(() => {
-//   console.log(a.b);
-// });
+const queue: Set<{ (...args): any; options?: { scheduler? } }> = new Set();
+const task = Promise.resolve();
+let isFlushing = false;
+effect(
+  () => {
+    console.log(a.a); // 1,6,7
+  },
+  {
+    scheduler: function (fn) {
+      queue.add(fn);
+      if (isFlushing) return;
+      isFlushing = true;
+      task
+        .then(() => {
+          queue.forEach(fun => fun());
+        })
+        .finally(() => {
+          isFlushing = false;
+        });
+    },
+  }
+);
 a.a = 4;
-// a.b = 3;
-// a.b = 5;
-// effect(() => {
-//   console.log(a.b);
-// });
+a.a = 5;
+a.a = 6;
+setTimeout(() => {
+  a.a = 7;
+}, 100);
