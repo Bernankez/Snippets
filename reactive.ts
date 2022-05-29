@@ -117,9 +117,7 @@ const watchEffect = effect;
 function computed(cb) {
   return {
     get value() {
-      return effect(cb, {
-        scheduler: fn => fn(),
-      });
+      return effect(cb);
     },
   };
 }
