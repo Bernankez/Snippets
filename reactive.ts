@@ -1,6 +1,7 @@
 const bucket: WeakMap<Object, Map<PropertyKey, Set<(...args) => any>>> = new WeakMap();
 let activeEffect;
 const activeStack = [];
+const isReactiveObj = Symbol("isReactiveObj");
 
 function reactive(obj) {
   return new Proxy(obj, {
@@ -10,10 +11,21 @@ function reactive(obj) {
       return res;
     },
     get(target, prop, receiver) {
+      if (prop === isReactiveObj) {
+        return true;
+      }
       track(target, prop);
-      return Reflect.get(target, prop, receiver);
+      const rtn = Reflect.get(target, prop, receiver);
+      if (rtn && typeof rtn === "object") {
+        return reactive(rtn);
+      }
+      return rtn;
     },
   });
+}
+
+function isReactive(obj) {
+  return !!(obj && obj[isReactiveObj]);
 }
 
 function effect(cb, options?: { scheduler?; immediate? }) {
@@ -122,19 +134,7 @@ function computed(cb) {
   };
 }
 
-const a = reactive({ a: 1, b: 2 });
-
-const c = computed(() => a.b);
-console.log(c.value); // 2
-
-watch(
-  () => a.a,
-  (newVal, oldVal) => {
-    console.log(newVal, oldVal); // 1 undefined, 4 1, 5 4
-  },
-  {
-    immediate: true,
-  }
-);
-a.a = 4;
-a.a = 5;
+const a = reactive({ a: 1, b: 2, c: { d: 3, e: 4 } });
+console.log(isReactive(a)); // true
+console.log(isReactive(a.c)); // true
+console.log(isReactive(a.c.d)); // false
