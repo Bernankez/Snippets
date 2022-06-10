@@ -21,7 +21,7 @@ export function $on(event: string, cb: (...args) => any) {
 export function $off(event: string, cb?: (...args) => any) {
   if (cb) {
     const cbSet = events.get(event);
-    cbSet.delete(cb);
+    cbSet?.delete(cb);
   } else {
     events.delete(event);
   }
