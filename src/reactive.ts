@@ -1,9 +1,9 @@
 const bucket: WeakMap<Object, Map<PropertyKey, Set<(...args) => any>>> = new WeakMap();
 let activeEffect;
-const activeStack = [];
+const activeStack:any[] = [];
 const isReactiveObj = Symbol("isReactiveObj");
 
-function reactive(obj) {
+export function reactive(obj) {
   return new Proxy(obj, {
     set(target, prop, value, receiver) {
       const res = Reflect.set(target, prop, value, receiver);
@@ -24,7 +24,7 @@ function reactive(obj) {
   });
 }
 
-function isReactive(obj) {
+export function isReactive(obj) {
   return !!(obj && obj[isReactiveObj]);
 }
 
@@ -54,7 +54,7 @@ function cleanup(effect) {
   effect.length = 0;
 }
 
-function trigger(obj, prop) {
+export function trigger(obj, prop) {
   const objMap = bucket.get(obj);
   if (!objMap) return;
   const propEffects = objMap.get(prop);
@@ -112,7 +112,7 @@ function createScheduler(type: "lazy") {
   }
 }
 
-function watch(dep: () => any, cb: (newValue, oldValue) => any, options?: { immediate? }) {
+export function watch(dep: () => any, cb: (newValue, oldValue) => any, options?: { immediate? }) {
   effect(dep, {
     scheduler: function (fn) {
       const cur = fn();
@@ -124,9 +124,9 @@ function watch(dep: () => any, cb: (newValue, oldValue) => any, options?: { imme
   });
 }
 
-const watchEffect = effect;
+export const watchEffect = effect;
 
-function computed(cb) {
+export function computed(cb) {
   return {
     get value() {
       return effect(cb);
