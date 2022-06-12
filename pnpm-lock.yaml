@@ -1,8 +1,12 @@
 lockfileVersion: 5.4
 
 specifiers:
+  javascript-state-machine: ^3.1.0
   typescript: ^4.5.4
   vite: ^2.9.9
+
+dependencies:
+  javascript-state-machine: 3.1.0
 
 devDependencies:
   typescript: 4.7.3
@@ -242,6 +246,10 @@ packages:
     dependencies:
       has: 1.0.3
     dev: true
+
+  /javascript-state-machine/3.1.0:
+    resolution: {integrity: sha512-BwhYxQ1OPenBPXC735RgfB+ZUG8H3kjsx8hrYTgWnoy6TPipEy4fiicyhT2lxRKAXq9pG7CfFT8a2HLr6Hmwxg==}
+    dev: false
 
   /nanoid/3.3.4:
     resolution: {integrity: sha512-MqBkQh/OHTS2egovRtLk45wEyNXwF+cokD+1YPf9u5VfJiRdAiRwB2froX5Co9Rh20xs4siNPm8naNotSD6RBw==}
