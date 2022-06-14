@@ -1,18 +1,22 @@
 import "./style.css";
-import { order } from "./state-machine";
+import Vue from "https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.esm.browser.js";
+import Vuex, { store } from "./Vuex";
 
-const app = document.querySelector<HTMLDivElement>("#app")!;
+Vue.use(Vuex);
 
-app.innerHTML = `
-  <h1>Hello Vite!</h1>
-  <a href="https://vitejs.dev/guide/features.html" target="_blank">Documentation</a>
-😊`;
+// const a = Vue.observable({
+//   a: 1,
+// });
 
-console.log(order.state);
-order.pay();
-console.log(order.state);
-order.reserve();
-order.cancelReserve();
-console.log(order.state);
-order.goto("REPORTED");
-console.log(order.state);
+const vm = new Vue({
+  store,
+  render: h => h("div", store.getters.c),
+}).$mount("#app");
+
+console.log(vm.$store.state);
+console.log(vm.$store.getters.c);
+vm.$store.dispatch("setA", 3);
+vm.$store.commit("setC", 5);
+console.log(vm.$store.getters.c);
+console.log(vm.$store.state);
+// a.a = 2;
