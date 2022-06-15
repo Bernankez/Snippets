@@ -12,11 +12,3 @@ const vm = new Vue({
   store,
   render: h => h("div", store.getters.c),
 }).$mount("#app");
-
-console.log(vm.$store.state);
-console.log(vm.$store.getters.c);
-vm.$store.dispatch("setA", 3);
-vm.$store.commit("setC", 5);
-console.log(vm.$store.getters.c);
-console.log(vm.$store.state);
-// a.a = 2;
