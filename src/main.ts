@@ -41,4 +41,4 @@ const vm = new Vue({
   },
 }).$mount("#app");
 
-// console.log(vm.$store);
+console.log(vm.$store);

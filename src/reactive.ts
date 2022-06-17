@@ -1,6 +1,6 @@
 const bucket: WeakMap<Object, Map<PropertyKey, Set<(...args) => any>>> = new WeakMap();
 let activeEffect;
-const activeStack:any[] = [];
+const activeStack: any[] = [];
 const isReactiveObj = Symbol("isReactiveObj");
 
 export function reactive(obj) {
@@ -51,7 +51,7 @@ function cleanup(effect) {
   for (let i = 0; i < effect.deps.length; i++) {
     effect.deps[i].delete(effect);
   }
-  effect.length = 0;
+  effect.deps.length = 0;
 }
 
 export function trigger(obj, prop) {
@@ -90,10 +90,45 @@ function track(obj, prop) {
   activeEffect.deps.push(propEffects);
 }
 
-function createScheduler(type: "lazy") {
+export function createScheduler(type: "lazy" | "nextTick") {
   const queue: Set<{ (...args): any; options?: { scheduler? } }> = new Set();
+  const queuePostFlushCb: { (...args): any; options?: { scheduler? } }[] = [];
   const task = Promise.resolve();
   let isFlushing = false;
+  let isFlushPending = false;
+
+  function nextTick(cb: ((...args: any[]) => any) | ((...args: any[]) => any)[]) {
+    if (Array.isArray(cb)) {
+      queuePostFlushCb.push(...cb);
+    } else {
+      queuePostFlushCb.push(cb);
+    }
+  }
+
+  function queueJob() {
+    isFlushPending = false;
+    isFlushing = true;
+
+    task
+      .then(() => {
+        queue.forEach((job, jobSelf, set) => {
+          job();
+          set.delete(job);
+        });
+        queuePostFlushCb.forEach((cb, index, arr) => {
+          cb();
+          arr.shift();
+        });
+
+        if (queue.size > 0) {
+          queueJob();
+        }
+      })
+      .finally(() => {
+        isFlushing = false;
+        isFlushPending = false;
+      });
+  }
 
   switch (type) {
     case "lazy":
@@ -108,6 +143,17 @@ function createScheduler(type: "lazy") {
           .finally(() => {
             isFlushing = false;
           });
+      };
+    case "nextTick":
+      return {
+        scheduler: function (fn) {
+          queue.add(fn);
+          if (!isFlushPending || !isFlushing) {
+            isFlushPending = true;
+            queueJob();
+          }
+        },
+        nextTick,
       };
   }
 }
@@ -133,8 +179,3 @@ export function computed(cb) {
     },
   };
 }
-
-const a = reactive({ a: 1, b: 2, c: { d: 3, e: 4 } });
-console.log(isReactive(a)); // true
-console.log(isReactive(a.c)); // true
-console.log(isReactive(a.c.d)); // false
