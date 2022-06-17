@@ -1,3 +1,5 @@
+import { createScheduler } from "../reactive";
+
 const p = Promise.resolve();
 
 export function initVueNextTick(Vue) {
@@ -7,3 +9,9 @@ export function initVueNextTick(Vue) {
 
   Vue.prototype.$nextTick = Vue.nextTick;
 }
+
+// export function initVueNextTick(Vue) {
+//   Vue.nextTick = (createScheduler("nextTick") as any).nextTick;
+
+//   Vue.prototype.$nextTick = Vue.nextTick;
+// }
