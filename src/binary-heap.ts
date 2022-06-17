@@ -48,6 +48,7 @@ export class BinaryHeap<T> {
     this._heap[i] = temp;
   }
 
+  // heapify的主要思路是下沉，用在pop元素的时候，只去替换受到影响需要替换的节点
   heapify(i: number) {
     const s = this.self(i);
     const l = this.left(i);
@@ -80,6 +81,7 @@ export class BinaryHeap<T> {
     return rtn;
   }
 
+  // push主要思路是上浮，其实也可以采用自底向上的heapify，类似build，但是单独比较该节点与父节点相当于是优化了，避免了不必要的执行流程
   push(x: T) {
     this._heap.push(x);
     let i = this.size - 1;
@@ -90,6 +92,7 @@ export class BinaryHeap<T> {
     return this;
   }
 
+  // build遍历所有非叶子节点，自底向上调整
   private build() {
     // 从最后一个非叶子子节点开始向上构建
     for (let i = this.parentIndex(this.size - 1); i >= 0; i--) {
