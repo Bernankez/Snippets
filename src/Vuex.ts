@@ -1,4 +1,4 @@
-import { reactive } from "./reactive";
+import Vue2 from "vue2";
 
 let Vue;
 
@@ -20,60 +20,88 @@ export default function install(_Vue) {
   });
 }
 
-export class Vuex<S> {
-  #state: S;
-  #getters: any;
-  #mutations: any;
-  #actions: any;
+export class Store<S> {
+  private _state: any;
+  public getters: any;
+  private _mutations: any;
+  private _actions: any;
 
-  constructor(options: {
-    state: S;
-    getters?: { [k: string]: (state: S) => any };
-    mutations: { [k: string]: (state, payload: any) => any };
-    actions?: { [k: string]: ({ commit }, payload: any) => any };
-  }) {
-    this.#state = options.state;
-    this.#getters = options.getters || {};
-    this.#mutations = options.mutations || {};
-    this.#actions = options.actions || {};
-
-    this.commit = this.commit.bind(this);
-    this.dispatch = this.dispatch.bind(this);
+  constructor(options: VuexOptions<S>) {
+    if (!(this instanceof Store)) {
+      throw new Error("Vuex Error: must be called with new operator");
+    }
+    if (options.getters) {
+      this.getters = Object.create(null);
+      Object.keys(options.getters).forEach(key => {
+        Object.defineProperty(this.getters, key, {
+          get: () => options.getters![key](this.state),
+          enumerable: true,
+        });
+      });
+    }
+    this._mutations = Object.create(null);
+    if (options.mutations) {
+      Object.keys(options.mutations).forEach(key => {
+        (this._mutations[key] = this._mutations[key] || []).push(options.mutations![key]);
+      });
+    }
+    this._actions = options.actions || Object.create(null);
+    this._state = Vue2.observable({
+      state: options.state,
+    });
+    const _this = this;
+    const { commit, disptach } = this;
+    this.commit = function (type, payload) {
+      return commit.call(this, type, payload, _this);
+    };
+    this.disptach = function (type, payload) {
+      return disptach.call(this, type, payload, _this);
+    };
   }
 
   get state() {
-    return this.#state;
+    return this._state.state;
   }
 
-  get getters() {
-    const _this = this;
-    return new Proxy(this.#getters, {
-      get(target, key, receiver) {
-        return target[key].call(this, _this.#state);
-      },
+  commit(type, payload, store?) {
+    if (type && (type.type ?? type.payload)) {
+      payload = type.payload;
+      type = type.type;
+    }
+    if (!store._mutations[type]) {
+      return;
+    }
+    store._mutations[type].forEach(mutation => {
+      mutation.call(store, store.state, payload);
     });
   }
 
-  commit(type: string, payload: any);
-  commit(Obj: { type: string; payload: any });
-  commit(options, payload?) {
-    let _type = options;
-    let _payload = payload;
-    if (typeof options === "object") {
-      _type = options.type;
-      _payload = options.payload;
+  disptach(type, payload, store?) {
+    if (type && (type.type ?? type.payload)) {
+      payload = type.payload;
+      type = type.type;
     }
-    this.#mutations[_type](this.#state, _payload);
-  }
-
-  dispatch(type: string, payload: any) {
-    let _type = type;
-    let _payload = payload;
-    this.#actions[_type](this, _payload);
+    if (!store._actions[type]) {
+      return;
+    }
+    store._actions[type].call(store, store, payload);
   }
 }
 
-export const store = new Vuex({
+export type VuexOptions<S> = {
+  state: S;
+  getters?: {
+    [K: string]: (state: S) => any;
+  };
+  mutations?: {
+    [K: string]: (state: S, payload: any) => any;
+  };
+  actions?: {
+    [K: string]: (ctx: { commit }, payload: any) => any;
+  };
+};
+
+export const store = new Store({
   state: {
     a: 1,
     b: {
