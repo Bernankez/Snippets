@@ -7,7 +7,7 @@ const b = computed(() => a.b);
 describe("reactive", () => {
   it("reactive", () => {
     expect(a).toHaveProperty(["a"]);
-    expect(a).not.toHaveProperty("b");
+    expect(a).not.toHaveProperty("aa");
     expect(a.a).toBe(1);
   });
 

@@ -16,6 +16,8 @@
     "vitest": "^0.15.1"
   },
   "dependencies": {
-    "javascript-state-machine": "^3.1.0"
+    "javascript-state-machine": "^3.1.0",
+    "vue": "^3.2.37",
+    "vue2": "npm:vue@^2.6.14"
   }
 }
