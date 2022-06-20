@@ -61,7 +61,7 @@ export class PromiseLike<V, R> {
         // TODO 当then执行时promise已被决议
         if (this._state === PromiseState.FULFILLED && onFulfilled) {
           result = onFulfilled.call(null, this._result);
-        } else if (this._state === PromiseState.REJECTED) {
+        } else if (this._state === PromiseState.REJECTED && onRejected) {
           result = onRejected.call(null, this._result);
         }
         if (result && typeof result.then === "function") {
@@ -80,45 +80,16 @@ export class PromiseLike<V, R> {
 
 let adapter = {
   deferred() {
+    let res, rej;
+    const promise = new PromiseLike((resolve, reject) => {
+      res = resolve;
+      rej = reject;
+    });
     return {
-      promise: new PromiseLike((resolve, reject) => {}),
-      resolve(value) {
-        return new PromiseLike((resolve, reject) => {
-          resolve(value);
-        });
-      },
-      reject(reason) {
-        return new PromiseLike((resolve, reject) => {
-          reject(reason);
-        });
-      },
+      promise,
+      resolve: res,
+      reject: rej,
     };
   },
 };
 module.exports = adapter;
-
-// const a = new PromiseLike((resolve, reject) => {
-//   console.log("111");
-//   resolve(1);
-//   console.log("222");
-// }).then(res => {
-//   console.log(res);
-// });
-
-// const b = new PromiseLike((resolve, reject) => {
-//   resolve(1);
-//   console.log("b");
-// });
-
-// const c = b.then(res => {
-//   console.log("c");
-//   console.log(res);
-//   // return res + 1;
-//   return new PromiseLike((resolve, reject) => resolve(1));
-// });
-// // const d = b.then(res => {
-// //   console.log("d");
-// // });
-// const e = c.then(res => {
-//   console.log(res);
-// });
