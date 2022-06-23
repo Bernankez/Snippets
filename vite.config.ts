@@ -1,3 +1,10 @@
+import { resolve } from "path";
 import { defineConfig } from "vite";
 
-export default defineConfig({});
+export default defineConfig({
+  resolve: {
+    alias: {
+      "@": resolve(__dirname, "src"),
+    },
+  },
+});

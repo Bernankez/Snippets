@@ -1,29 +1,50 @@
 import "./style.css";
 // @ts-ignore
-import Vue from "https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.esm.browser.js";
-import Vuex, { store } from "./Vuex";
-import { initVueUse } from "./interviews/vue-use";
+// import Vue from "https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.esm.browser.js";
+import { PromiseLike, adapter } from "@/interviews/promise-like";
 
-initVueUse(Vue);
-Vue.use(Vuex);
+function test(value) {
+  debugger
+  return new PromiseLike((resolve, reject) => resolve(value));
+}
 
-const vm = new Vue({
-  store,
-  render: function (h) {
-    return h(
-      "pre",
-      {
-        attrs: {
-          id: "test",
-        },
-        ref: "test",
-      },
-      [JSON.stringify(this.$store.state), this.$store.getters.c]
-    );
-  },
-}).$mount("#app");
+function testInner(value) {
+  return {
+    then: function (onFulfilled) {
+      debugger;
+      setTimeout(function () {
+        onFulfilled(value);
+      }, 0);
+    },
+  };
+}
 
-console.log(vm.$store);
-console.log(vm.$store.getters.c);
-vm.$store.disptach("setC", 4);
-console.log(vm.$store.getters.c);
+function xFactory() {
+  return {
+    then: function (resolvePromise) {
+      resolvePromise(yFactory());
+    },
+  };
+}
+
+function yFactory() {
+  debugger;
+  return test(testInner({ a: 1 }));
+}
+
+const { promise, resolve, reject } = adapter.deferred();
+resolve();
+const step = promise.then(() => {
+  return xFactory();
+});
+debugger;
+console.log(
+  step.then(res => {
+    console.log(res);
+  })
+);
+// console.log(
+//   new PromiseLike((resolve, reject) => {
+//     resolve({ a: 1 });
+//   })
+// );
