@@ -10,36 +10,32 @@ export class PromiseLike {
   private _callbacks: any[]; // then中被注册的回调
 
   constructor(exector: (resolve, reject) => any) {
-    if (typeof exector !== "function") {
-      throw new TypeError("PromiseLike: exector must be Function");
-    }
     this._state = PromiseState.PENDING;
     this._value = undefined;
     this._callbacks = [];
 
     const resolve = value => {
-      if (this._state !== PromiseState.PENDING) {
-        return;
+      if (value?.a === 1 || value?.b === 1) {
+        debugger;
       }
+      if (this._state !== PromiseState.PENDING) return;
       this._state = PromiseState.FULFILLED;
       this._value = value;
 
       createMicroTask(() => {
-        this._callbacks.forEach(fn => {
-          fn(this._state);
+        this._callbacks.forEach(cb => {
+          cb();
         });
       });
     };
     const reject = reason => {
-      if (this._state !== PromiseState.PENDING) {
-        return;
-      }
+      if (this._state !== PromiseState.PENDING) return;
       this._state = PromiseState.REJECTED;
       this._value = reason;
 
       createMicroTask(() => {
-        this._callbacks.forEach(fn => {
-          fn(this._state);
+        this._callbacks.forEach(cb => {
+          cb();
         });
       });
     };
@@ -51,63 +47,86 @@ export class PromiseLike {
     const onFulfilled = typeof onfulfilled === "function" ? onfulfilled : undefined;
     const onRejected = typeof onrejected === "function" ? onrejected : undefined;
 
-    const rtn = new PromiseLike((resolve, reject) => {
-      const callback = (state: PromiseState) => {
-        let result;
-        // 根据state 执行onFulfilled或onRejected 如果onFulfilled或onRejected不是函数则被忽略 传递相同终值给下一Promise
-        try {
-          if (state === PromiseState.PENDING) return;
-          else if (state === PromiseState.FULFILLED) {
+    const returnValue = new PromiseLike((resolve, reject) => {
+      const callback = () => {
+        if (this._state === PromiseState.PENDING) {
+          return;
+        } else {
+          let fn;
+          if (this._state === PromiseState.FULFILLED) {
             if (onFulfilled) {
-              result = onFulfilled.call(undefined, this._value);
+              fn = onFulfilled;
             } else {
               resolve(this._value);
               return;
             }
-          } else if (state === PromiseState.REJECTED) {
+          } else if (this._state === PromiseState.REJECTED) {
             if (onRejected) {
-              result = onRejected.call(undefined, this._value);
+              fn = onRejected;
             } else {
               reject(this._value);
               return;
             }
           }
-        } catch (e) {
-          reject(e);
-          return;
-        }
-        if (result === rtn) {
-          reject(new TypeError("PromiseLike: return value cannot be it self"));
-          return;
-        }
-        if (result instanceof PromiseLike) {
-          result.then(resolve, reject);
-          return;
-        } else if (typeof result === "function" || (result && typeof result === "object")) {
-          let _then;
+          let result;
           try {
-            _then = result.then;
+            result = fn.call(undefined, this._value);
           } catch (e) {
             reject(e);
             return;
           }
-          if (typeof _then === "function") {
-            const rtn = _then.call(result, resolve, reject);
-            // TODO 2.3.3.3
-            return;
-          }
+          resolution(returnValue, result, resolve, reject);
         }
-        resolve(result);
       };
+
       if (this._state !== PromiseState.PENDING) {
-        createMicroTask(() => {
-          callback(this._state);
-        });
+        createMicroTask(callback);
       } else {
         this._callbacks.push(callback);
       }
     });
-    return rtn;
+
+    return returnValue;
+  }
+}
+
+function resolution(promise, value, resolve, reject) {
+  if (promise === value) {
+    reject(new TypeError("PromiseLike: promise cannot have the same reference with value"));
+    return;
+  }
+  if (value instanceof PromiseLike) {
+    value.then(resolve, reject);
+  } else if (typeof value === "function" || (value && typeof value === "object")) {
+    let then;
+    try {
+      then = value.then;
+    } catch (e) {
+      reject(e);
+      return;
+    }
+    if (typeof then === "function") {
+      let called = false;
+      const resolvePromise = val => {
+        if (called) return;
+        called = true;
+        resolution(promise, val, resolve, reject);
+      };
+      const rejectPromise = res => {
+        if (called) return;
+        called = true;
+        reject(res);
+      };
+      try {
+        then.call(value, resolvePromise, rejectPromise);
+      } catch (e) {
+        rejectPromise(e);
+      }
+    } else {
+      resolve(value);
+    }
+  } else {
+    resolve(value);
   }
 }
 
@@ -115,7 +134,7 @@ function createMicroTask(fn) {
   queueMicrotask(fn);
 }
 
-let adapter = {
+export const adapter = {
   deferred() {
     let res, rej;
     const promise = new PromiseLike((resolve, reject) => {
