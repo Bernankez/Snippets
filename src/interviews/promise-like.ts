@@ -15,9 +15,6 @@ export class PromiseLike {
     this._callbacks = [];
 
     const resolve = value => {
-      if (value?.a === 1 || value?.b === 1) {
-        debugger;
-      }
       if (this._state !== PromiseState.PENDING) return;
       this._state = PromiseState.FULFILLED;
       this._value = value;
@@ -94,9 +91,6 @@ function resolution(promise, value, resolve, reject) {
   if (promise === value) {
     reject(new TypeError("PromiseLike: promise cannot have the same reference with value"));
     return;
-  }
-  if (value instanceof PromiseLike) {
-    value.then(resolve, reject);
   } else if (typeof value === "function" || (value && typeof value === "object")) {
     let then;
     try {
