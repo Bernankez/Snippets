@@ -11,9 +11,9 @@ const button2 = document.createElement("button");
 fragment.appendChild(button1);
 fragment.appendChild(button2);
 app?.appendChild(fragment);
-button1.innerText = "button1";
+button1.innerText = "PromiseLike";
 button1.addEventListener("click", promiselike);
-button2.innerText = "button2";
+button2.innerText = "Promise";
 button2.addEventListener("click", promise);
 
 function promiselike() {

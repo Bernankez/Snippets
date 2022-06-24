@@ -100,22 +100,24 @@ function resolution(promise, value, resolve, reject) {
       return;
     }
     if (typeof then === "function") {
-      let called = false;
-      const resolvePromise = val => {
-        if (called) return;
-        called = true;
-        resolution(promise, val, resolve, reject);
-      };
-      const rejectPromise = res => {
-        if (called) return;
-        called = true;
-        reject(res);
-      };
-      try {
-        then.call(value, resolvePromise, rejectPromise);
-      } catch (e) {
-        rejectPromise(e);
-      }
+      createMicroTask(() => {
+        let called = false;
+        const resolvePromise = val => {
+          if (called) return;
+          called = true;
+          resolution(promise, val, resolve, reject);
+        };
+        const rejectPromise = res => {
+          if (called) return;
+          called = true;
+          reject(res);
+        };
+        try {
+          then.call(value, resolvePromise, rejectPromise);
+        } catch (e) {
+          rejectPromise(e);
+        }
+      })
     } else {
       resolve(value);
     }
@@ -142,4 +144,4 @@ export const adapter = {
     };
   },
 };
-// module.exports = adapter;
+module.exports = adapter;
