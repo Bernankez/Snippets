@@ -12,7 +12,7 @@ dist
 dist-ssr
 *.local
 coverage
-/src/interviews/promise-like.js
+/src/promise-like.js
 
 # Editor directories and files
 .vscode/*
