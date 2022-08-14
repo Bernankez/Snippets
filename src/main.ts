@@ -1,7 +1,7 @@
 import "./style.css";
 // @ts-ignore
 // import Vue from "https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.esm.browser.js";
-import { PromiseLike } from "@/interviews/promise-like";
+import { PromiseLike } from "@/promise-like";
 
 const app = document.querySelector("#app");
 console.log(app);

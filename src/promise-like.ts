@@ -144,4 +144,4 @@ export const adapter = {
     };
   },
 };
-module.exports = adapter;
+// module.exports = adapter;
