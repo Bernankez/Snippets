@@ -3,6 +3,7 @@ lockfileVersion: 5.4
 specifiers:
   '@types/node': ^18.7.3
   install: ^0.13.0
+  javascript-state-machine: ^3.1.0
   pnpm: ^7.9.0
   promises-aplus-tests: ^2.1.2
   typescript: ^4.6.4
@@ -12,6 +13,7 @@ specifiers:
   vue2: npm:vue@^2.7
 
 dependencies:
+  javascript-state-machine: 3.1.0
   vue: 3.2.37
   vue2: /vue/2.7.8
 
@@ -747,6 +749,10 @@ packages:
       commander: 0.6.1
       mkdirp: 0.3.0
     dev: true
+
+  /javascript-state-machine/3.1.0:
+    resolution: {integrity: sha512-BwhYxQ1OPenBPXC735RgfB+ZUG8H3kjsx8hrYTgWnoy6TPipEy4fiicyhT2lxRKAXq9pG7CfFT8a2HLr6Hmwxg==}
+    dev: false
 
   /local-pkg/0.4.2:
     resolution: {integrity: sha512-mlERgSPrbxU3BP4qBqAvvwlgW4MTg78iwJdGGnv7kibKjWcJksrG3t6LB5lXI93wXRDvG4NpUgJFmTG4T6rdrg==}
