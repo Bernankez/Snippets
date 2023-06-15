@@ -1,11 +1,11 @@
 const installedPlugin = new Set();
 
 export function initVueUse(Vue) {
-  Vue.use = function <T extends Function | { install: Function }>(plugin: T) {
+  Vue.use = function<T extends Function | { install: Function }>(...params: [T, ...any]) {
+    const [plugin, args] = params;
     if (installedPlugin.has(plugin)) {
       return this;
     }
-    const args = sliceArguments(arguments, 1);
     if (typeof plugin === "function") {
       plugin.call(null, this, ...args);
     } else if (typeof plugin.install === "function") {

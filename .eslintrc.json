@@ -1,0 +1,11 @@
+{
+  "extends": "@bernankez/react",
+  "rules": {
+    "no-new-func": "off",
+    "no-prototype-builtins": "off",
+    "no-empty": "warn",
+    "no-proto": "off",
+    "no-useless-call": "warn",
+    "@typescript-eslint/no-this-alias": "off"
+  }
+}

@@ -1,29 +1,37 @@
 {
   "name": "snippets",
-  "private": true,
-  "version": "0.0.0",
   "type": "module",
+  "version": "0.0.0",
+  "private": true,
+  "description": "My snippets",
+  "license": "MIT",
   "scripts": {
-    "dev": "vite",
-    "build": "tsc && vite build",
-    "preview": "vite preview",
+    "start": "vite",
+    "dev": "vite --open",
+    "build": "vite build",
+    "serve": "vite preview",
     "test": "vitest run",
-    "test:watch": "vitest",
-    "test:promise": "tsc ./src/promise-like.ts && promises-aplus-tests ./src/promise-like.js",
-    "coverage": "vitest run --coverage"
-  },
-  "devDependencies": {
-    "@types/node": "^18.7.3",
-    "install": "^0.13.0",
-    "pnpm": "^7.9.0",
-    "promises-aplus-tests": "^2.1.2",
-    "typescript": "^4.6.4",
-    "vite": "^3.0.7",
-    "vitest": "^0.21.1"
+    "lint": "eslint .",
+    "fix": "eslint . --fix"
   },
   "dependencies": {
     "javascript-state-machine": "^3.1.0",
-    "vue": "^3.2.37",
-    "vue2": "npm:vue@^2.7"
+    "solid-js": "^1.7.6",
+    "unocss": "^0.53.1",
+    "vue": "^3.3.4",
+    "vue2": "npm:vue@^2.6.14"
+  },
+  "devDependencies": {
+    "@bernankez/eslint-config-react": "^0.7.0",
+    "@solidjs/testing-library": "^0.6.0",
+    "@testing-library/jest-dom": "^5.16.5",
+    "@types/testing-library__jest-dom": "^5.14.5",
+    "eslint": "^8.42.0",
+    "jsdom": "^21.1.0",
+    "promises-aplus-tests": "^2.1.2",
+    "typescript": "^4.9.5",
+    "vite": "^4.3.9",
+    "vite-plugin-solid": "^2.7.0",
+    "vitest": "^0.28.4"
   }
 }

@@ -3,7 +3,7 @@ const events: Map<string, Set<(...args) => any>> = new Map();
 export function $emit(event: string, ...props) {
   const cbList = events.get(event);
   if (cbList) {
-    cbList.forEach(cb => {
+    cbList.forEach((cb) => {
       cb(...props);
     });
   }
@@ -28,7 +28,7 @@ export function $off(event: string, cb?: (...args) => any) {
 }
 
 $on("click", test);
-$on("click", e => {
+$on("click", (e) => {
   console.log("dd");
 });
 

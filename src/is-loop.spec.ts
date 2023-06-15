@@ -1,5 +1,5 @@
-import { describe, it, expect } from "vitest";
-import { isLoop, ListNode } from "./is-loop";
+import { describe, expect, it } from "vitest";
+import { ListNode, isLoop } from "./is-loop";
 
 const a = new ListNode(1);
 const b = (a.next = new ListNode(2));

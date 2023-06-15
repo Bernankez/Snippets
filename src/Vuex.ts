@@ -28,11 +28,11 @@ export class Store<S> {
 
   constructor(options: VuexOptions<S>) {
     if (!(this instanceof Store)) {
-      throw new Error("Vuex Error: must be called with new operator");
+      throw new TypeError("Vuex Error: must be called with new operator");
     }
     if (options.getters) {
       this.getters = Object.create(null);
-      Object.keys(options.getters).forEach(key => {
+      Object.keys(options.getters).forEach((key) => {
         Object.defineProperty(this.getters, key, {
           get: () => options.getters![key](this.state),
           enumerable: true,
@@ -41,7 +41,7 @@ export class Store<S> {
     }
     this._mutations = Object.create(null);
     if (options.mutations) {
-      Object.keys(options.mutations).forEach(key => {
+      Object.keys(options.mutations).forEach((key) => {
         (this._mutations[key] = this._mutations[key] || []).push(options.mutations![key]);
       });
     }
@@ -71,7 +71,7 @@ export class Store<S> {
     if (!store._mutations[type]) {
       return;
     }
-    store._mutations[type].forEach(mutation => {
+    store._mutations[type].forEach((mutation) => {
       mutation.call(store, store.state, payload);
     });
   }
@@ -88,7 +88,7 @@ export class Store<S> {
   }
 }
 
-export type VuexOptions<S> = {
+export interface VuexOptions<S> {
   state: S;
   getters?: {
     [K: string]: (state: S) => any;
@@ -99,7 +99,7 @@ export type VuexOptions<S> = {
   actions?: {
     [K: string]: (ctx: { commit }, payload: any) => any;
   };
-};
+}
 
 export const store = new Store({
   state: {

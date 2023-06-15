@@ -14,24 +14,24 @@ export class PromiseLike {
     this._value = undefined;
     this._callbacks = [];
 
-    const resolve = value => {
-      if (this._state !== PromiseState.PENDING) return;
+    const resolve = (value) => {
+      if (this._state !== PromiseState.PENDING) { return; }
       this._state = PromiseState.FULFILLED;
       this._value = value;
 
       createMicroTask(() => {
-        this._callbacks.forEach(cb => {
+        this._callbacks.forEach((cb) => {
           cb();
         });
       });
     };
-    const reject = reason => {
-      if (this._state !== PromiseState.PENDING) return;
+    const reject = (reason) => {
+      if (this._state !== PromiseState.PENDING) { return; }
       this._state = PromiseState.REJECTED;
       this._value = reason;
 
       createMicroTask(() => {
-        this._callbacks.forEach(cb => {
+        this._callbacks.forEach((cb) => {
           cb();
         });
       });
@@ -47,7 +47,7 @@ export class PromiseLike {
     const returnValue = new PromiseLike((resolve, reject) => {
       const callback = () => {
         if (this._state === PromiseState.PENDING) {
-          return;
+
         } else {
           let fn;
           if (this._state === PromiseState.FULFILLED) {
@@ -90,7 +90,6 @@ export class PromiseLike {
 function resolution(promise, value, resolve, reject) {
   if (promise === value) {
     reject(new TypeError("PromiseLike: promise cannot have the same reference with value"));
-    return;
   } else if (typeof value === "function" || (value && typeof value === "object")) {
     let then;
     try {
@@ -102,13 +101,13 @@ function resolution(promise, value, resolve, reject) {
     if (typeof then === "function") {
       createMicroTask(() => {
         let called = false;
-        const resolvePromise = val => {
-          if (called) return;
+        const resolvePromise = (val) => {
+          if (called) { return; }
           called = true;
           resolution(promise, val, resolve, reject);
         };
-        const rejectPromise = res => {
-          if (called) return;
+        const rejectPromise = (res) => {
+          if (called) { return; }
           called = true;
           reject(res);
         };
@@ -117,7 +116,7 @@ function resolution(promise, value, resolve, reject) {
         } catch (e) {
           rejectPromise(e);
         }
-      })
+      });
     } else {
       resolve(value);
     }

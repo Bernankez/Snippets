@@ -3,10 +3,10 @@ export function ListNode(this: LIST_NODE, val: number) {
   this.next = null;
 }
 
-type LIST_NODE = {
+interface LIST_NODE {
   val: any;
   next: LIST_NODE | null;
-};
+}
 
 export function isLoop(node: LIST_NODE) {
   const nodeSet = new Set();

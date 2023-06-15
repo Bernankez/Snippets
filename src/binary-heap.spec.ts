@@ -1,4 +1,4 @@
-import { describe, it, expect, assert } from "vitest";
+import { describe, expect, it } from "vitest";
 import { BinaryHeap } from "./binary-heap";
 
 const heap = new BinaryHeap((a, b) => a > b, [0, 10, 5, 6, 8, 40, 1]);

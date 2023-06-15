@@ -1,5 +1,5 @@
-import { describe, it, expect, vi } from "vitest";
-import { isReactive, reactive, watchEffect, watch, computed, createScheduler } from "./reactive";
+import { describe, expect, it, vi } from "vitest";
+import { computed, createScheduler, isReactive, reactive, watch, watchEffect } from "./reactive";
 
 const a = reactive({ a: 1, b: 2 });
 const b = computed(() => a.b);
@@ -35,7 +35,7 @@ describe("reactive", () => {
 
   it.skip("watch computed", () => {
     const cbObj = {
-      cb: newVal => {
+      cb: (newVal) => {
         console.log(newVal);
       },
     };
@@ -48,7 +48,7 @@ describe("reactive", () => {
 
   it("watch reactive", () => {
     const cbObj = {
-      cb: newVal => {
+      cb: (newVal) => {
         console.log(newVal);
       },
     };

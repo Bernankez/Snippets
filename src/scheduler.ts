@@ -1,5 +1,5 @@
 const timeout = time =>
-  new Promise(resolve => {
+  new Promise((resolve) => {
     setTimeout(resolve, time);
   });
 
@@ -14,7 +14,7 @@ export class Scheduler {
 
   add<T>(fn: () => Promise<T>): Promise<T> {
     if (this.currentTasks.size >= 2) {
-      return new Promise(resolve => {
+      return new Promise((resolve) => {
         const taskFn = () => {
           resolve(this.doTask(fn));
         };

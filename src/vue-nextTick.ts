@@ -1,5 +1,3 @@
-import { createScheduler } from "../reactive";
-
 const p = Promise.resolve();
 
 export function initVueNextTick(Vue) {

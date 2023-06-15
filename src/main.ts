@@ -1,6 +1,5 @@
 import "./style.css";
-// @ts-ignore
-// import Vue from "https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.esm.browser.js";
+// @ts-expect-error import vue from cdn
 import { PromiseLike } from "@/promise-like";
 
 const app = document.querySelector("#app");
@@ -27,7 +26,7 @@ function promiselike() {
         resolve(4);
       });
     })
-    .then(res => {
+    .then((res) => {
       console.log(res);
     });
 
@@ -62,7 +61,7 @@ function promise() {
         resolve(4);
       });
     })
-    .then(res => {
+    .then((res) => {
       console.log(res);
     });
 

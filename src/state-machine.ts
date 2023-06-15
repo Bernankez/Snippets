@@ -24,7 +24,7 @@ export const order = new StateMachine({
     {
       name: "goto",
       from: "*",
-      to: function (s) {
+      to(s) {
         return s;
       },
     },

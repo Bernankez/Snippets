@@ -1,5 +1,5 @@
-import { describe, it, expect } from "vitest";
-import { People, New } from "./new-operator";
+import { describe, expect, it } from "vitest";
+import { New, People } from "./new-operator";
 
 const p = New(People, "some");
 const p1 = new People("some");

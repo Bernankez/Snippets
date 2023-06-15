@@ -33,7 +33,7 @@ function effect(cb, options?: { scheduler?; immediate? }) {
     cleanup(effectFn);
     activeEffect = effectFn;
     activeStack.push(effectFn);
-    let rtn = cb();
+    const rtn = cb();
     activeStack.pop();
     activeEffect = activeStack[activeStack.length - 1];
     return rtn;
@@ -56,16 +56,16 @@ function cleanup(effect) {
 
 export function trigger(obj, prop) {
   const objMap = bucket.get(obj);
-  if (!objMap) return;
+  if (!objMap) { return; }
   const propEffects = objMap.get(prop);
   const effectsToRun: Set<{ (...args): any; options?; lastValue? }> = new Set();
-  propEffects &&
-    propEffects.forEach(eff => {
+  propEffects
+    && propEffects.forEach((eff) => {
       if (activeEffect !== eff) {
         effectsToRun.add(eff);
       }
     });
-  effectsToRun.forEach(eff => {
+  effectsToRun.forEach((eff) => {
     if (eff.options && eff.options.scheduler) {
       eff.options.scheduler(eff);
     } else {
@@ -75,7 +75,7 @@ export function trigger(obj, prop) {
 }
 
 function track(obj, prop) {
-  if (!activeEffect) return;
+  if (!activeEffect) { return; }
   let objMap = bucket.get(obj);
   if (!objMap) {
     objMap = new Map();
@@ -134,7 +134,7 @@ export function createScheduler(type: "lazy" | "nextTick") {
     case "lazy":
       return function (fn) {
         queue.add(fn);
-        if (isFlushing) return;
+        if (isFlushing) { return; }
         isFlushing = true;
         task
           .then(() => {
@@ -146,7 +146,7 @@ export function createScheduler(type: "lazy" | "nextTick") {
       };
     case "nextTick":
       return {
-        scheduler: function (fn) {
+        scheduler(fn) {
           queue.add(fn);
           if (!isFlushPending || !isFlushing) {
             isFlushPending = true;
@@ -160,7 +160,7 @@ export function createScheduler(type: "lazy" | "nextTick") {
 
 export function watch(dep: () => any, cb: (newValue, oldValue) => any, options?: { immediate? }) {
   effect(dep, {
-    scheduler: function (fn) {
+    scheduler(fn) {
       const cur = fn();
       cb(cur, fn.lastValue);
       fn.lastValue = cur;

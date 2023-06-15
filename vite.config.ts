@@ -1,11 +1,31 @@
 /// <reference types="vitest" />
-import { resolve } from "path";
+/// <reference types="vite/client" />
+
 import { defineConfig } from "vite";
+import solidPlugin from "vite-plugin-solid";
+import UnoCSS from "unocss/vite";
 
 export default defineConfig({
+  plugins: [solidPlugin(), UnoCSS()],
+  server: {
+    port: 3000,
+  },
+  test: {
+    environment: "jsdom",
+    globals: true,
+    transformMode: { web: [/\.[jt]sx?$/] },
+    setupFiles: ["node_modules/@testing-library/jest-dom/extend-expect.js"],
+    // otherwise, solid would be loaded twice:
+    deps: { registerNodeLoader: true },
+    // if you have few tests, try commenting one
+    // or both out to improve performance:
+    threads: false,
+    isolate: false,
+  },
+  build: {
+    target: "esnext",
+  },
   resolve: {
-    alias: {
-      "@": resolve(__dirname, "src")
-    },
+    conditions: ["development", "browser"],
   },
 });
