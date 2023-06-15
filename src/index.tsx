@@ -1,4 +1,6 @@
 import { render } from "solid-js/web";
+import "./style.css";
+import "virtual:uno.css";
 
 import { TodoList } from "./todo-list";
 
