@@ -12,9 +12,12 @@
     "serve": "vite preview",
     "test": "vitest run",
     "lint": "eslint .",
-    "fix": "eslint . --fix"
+    "fix": "eslint . --fix && pnpm stylelint:fix",
+    "stylelint": "stylelint **/*.{css}",
+    "stylelint:fix": "stylelint **/*.{css} --fix"
   },
   "dependencies": {
+    "@unocss/reset": "^0.53.1",
     "javascript-state-machine": "^3.1.0",
     "solid-js": "^1.7.6",
     "unocss": "^0.53.1",
@@ -23,12 +26,14 @@
   },
   "devDependencies": {
     "@bernankez/eslint-config-react": "^0.7.0",
+    "@bernankez/stylelint-config": "^0.4.3",
     "@solidjs/testing-library": "^0.6.0",
     "@testing-library/jest-dom": "^5.16.5",
     "@types/testing-library__jest-dom": "^5.14.5",
     "eslint": "^8.42.0",
     "jsdom": "^21.1.0",
     "promises-aplus-tests": "^2.1.2",
+    "stylelint": "^15.7.0",
     "typescript": "^4.9.5",
     "vite": "^4.3.9",
     "vite-plugin-solid": "^2.7.0",

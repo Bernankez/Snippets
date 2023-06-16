@@ -6,6 +6,7 @@
     "no-empty": "warn",
     "no-proto": "off",
     "no-useless-call": "warn",
-    "@typescript-eslint/no-this-alias": "off"
+    "@typescript-eslint/no-this-alias": "off",
+    "react/no-unknown-property": ["error", { "ignore": ["class"] }]
   }
 }
