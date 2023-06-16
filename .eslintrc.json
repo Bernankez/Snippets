@@ -1,5 +1,5 @@
 {
-  "extends": "@bernankez/react",
+  "extends": ["@bernankez/react", "@bernankez/unocss"],
   "rules": {
     "no-new-func": "off",
     "no-prototype-builtins": "off",

@@ -26,6 +26,7 @@
   },
   "devDependencies": {
     "@bernankez/eslint-config-react": "^0.7.0",
+    "@bernankez/eslint-config-unocss": "^0.7.0",
     "@bernankez/stylelint-config": "^0.4.3",
     "@solidjs/testing-library": "^0.6.0",
     "@testing-library/jest-dom": "^5.16.5",
