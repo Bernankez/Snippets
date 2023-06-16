@@ -5,6 +5,12 @@ settings:
   excludeLinksFromLockfile: false
 
 dependencies:
+  '@iconify-json/fa6-brands':
+    specifier: ^1.1.11
+    version: 1.1.11
+  '@iconify-json/simple-icons':
+    specifier: ^1.1.56
+    version: 1.1.56
   '@unocss/reset':
     specifier: ^0.53.1
     version: 0.53.1
@@ -842,6 +848,18 @@ packages:
   /@humanwhocodes/object-schema@1.2.1:
     resolution: {integrity: sha512-ZnQMnLV4e7hDlUvw8H+U8ASL02SS2Gn6+9Ac3wGGLIe7+je2AeAOxPY+izIPJDfFDb7eDjev0Us8MO1iFRN8hA==}
     dev: true
+
+  /@iconify-json/fa6-brands@1.1.11:
+    resolution: {integrity: sha512-+/dsIafxFCXlUvti0EHzVas9tnYXGqcSpybTBzzXbSVl2Ay1v26e/so/fz2Wrh8L3JrXq0LrMUYDsgZ4geQOqw==}
+    dependencies:
+      '@iconify/types': 2.0.0
+    dev: false
+
+  /@iconify-json/simple-icons@1.1.56:
+    resolution: {integrity: sha512-fsgArC3HmjQhAMXkjvIz0CrYsmjW3dSxAqUGAjsdQcikL03J4mqAgD8FpTEmMh22JrOB9GWVLINC07OTAeqskg==}
+    dependencies:
+      '@iconify/types': 2.0.0
+    dev: false
 
   /@iconify/types@2.0.0:
     resolution: {integrity: sha512-+wluvCrRhXrhyOmRDJ3q8mux9JkKy5SJ/v8ol2tu4FVjyYvtEzkc/3pK15ET6RKg4b4w4BmTk1+gsCUhf21Ykg==}

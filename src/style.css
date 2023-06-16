@@ -1,3 +1,38 @@
-:root {
+@font-face {
+  font-family: Emoji;
+  src: local("Apple Color Emoji"), local("Segoe UI Emoji"), local("Segoe UI Symbol"), local("Noto Color Emoji");
+  unicode-range: U+1F000-1F644, U+203C-3299;
+}
+
+body {
+  @apply p-5 box-border;
+
+  font-family: Avenir, system-ui, -apple-system, "Segoe UI", Rototo, Emoji, Helvetica, Arial, sans-serif;
   background-color: #212121;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+html,
+body {
+  display: grid;
+  width: 100%;
+  min-height: 100%;
+}
+
+ol > li {
+  @apply text-4.5 list-decimal font-bold;
+}
+
+pre {
+  @apply bg-dark-900 p-5 rounded-2 whitespace-pre-wrap;
+}
+
+input {
+  @apply bg-dark-900 p-x-2! p-y-1! box-border text-white rounded-1;
+}
+
+button {
+  @apply bg-dark-500 p-x-2! p-y-1! text-white outline-0
+    focus-within:outline-2 outline-solid outline-gray-400 rounded-1 hover:bg-dark-900 transition;
 }

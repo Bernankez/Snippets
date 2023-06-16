@@ -100,6 +100,3 @@ export class BinaryHeap<T> {
     }
   }
 }
-
-const bh = new BinaryHeap((a, b) => a < b, [0, 5, 10, 1, 9, 6]);
-console.log(bh.heap);

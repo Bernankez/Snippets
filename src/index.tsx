@@ -1,8 +1,8 @@
 import { render } from "solid-js/web";
 import "./style.css";
 import "virtual:uno.css";
-
-import { TodoList } from "./todo-list";
+import "@unocss/reset/tailwind-compat.css";
+import { Home } from "./pages/home";
 
 const root = document.getElementById("root");
 
@@ -12,4 +12,28 @@ if (import.meta.env.DEV && !(root instanceof HTMLElement)) {
   );
 }
 
-render(() => <TodoList />, root!);
+render(
+  () => (
+    <div>
+      <Home />
+      <samp class="m-t-3 flex items-center justify-center flex-gap-2 text-4.5 text-gray-50">
+        <a
+          href="https://keke.cc"
+          class="decoration-underline"
+          target="_blank"
+          rel="noreferrer"
+        >
+          @科科cole
+        </a>
+        <span class="font-bold">·</span>
+        <a
+          href="https://github.com/Bernankez/Snippets"
+          target="_blank"
+          class="i-fa6-brands:github-alt text-6"
+          rel="noreferrer"
+        ></a>
+      </samp>
+    </div>
+  ),
+  root!,
+);
