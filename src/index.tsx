@@ -16,10 +16,9 @@ render(
   () => (
     <div>
       <Home />
-      <samp class="m-t-3 flex items-center justify-center flex-gap-2 text-4.5 text-gray-50">
+      <div class="m-t-3 flex items-center justify-center flex-gap-2 text-4.5 text-gray-50">
         <a
           href="https://keke.cc"
-          class="decoration-underline"
           target="_blank"
           rel="noreferrer"
         >
@@ -32,7 +31,7 @@ render(
           class="i-fa6-brands:github-alt text-6"
           rel="noreferrer"
         ></a>
-      </samp>
+      </div>
     </div>
   ),
   root!,

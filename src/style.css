@@ -37,3 +37,11 @@ button {
   @apply bg-dark-500 p-x-2! p-y-1! text-white outline-0
     focus-within:outline-2 outline-solid outline-gray-400 rounded-1 hover:bg-dark-900 transition;
 }
+
+a {
+  @apply decoration-underline! font-mono;
+}
+
+.ref {
+  @apply font-normal text-gray-50 text-4 m-l-3;
+}
