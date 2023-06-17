@@ -5,10 +5,11 @@
 }
 
 body {
-  @apply p-5 box-border;
+  @apply p-5 box-border bg-dark-500;
 
   font-family: Avenir, system-ui, -apple-system, "Segoe UI", Rototo, Emoji, Helvetica, Arial, sans-serif;
-  background-color: #212121;
+
+  /* background-color: #212121; */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }

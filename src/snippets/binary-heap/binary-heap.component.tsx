@@ -45,7 +45,7 @@ export function BinaryHeapComponent() {
 
   return (
     <div>
-      <div class="flex items-center flex-gap-3">
+      <div class="flex flex-wrap items-center flex-gap-3">
         <input
           placeholder="输入数字，使用,分隔"
           value={inputs()}
