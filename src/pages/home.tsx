@@ -1,4 +1,5 @@
 import { BinaryHeapComponent } from "@/snippets/binary-heap/binary-heap.component";
+import { EventBusComponent } from "@/snippets/event-bus/event-bus.component";
 
 const styles = `
 @font-face {
@@ -28,6 +29,10 @@ export function Home() {
         <a class="ref" href="https://github.com/Bernankez/Snippets/blob/master/src/snippets/binary-heap/binary-heap.ts" target="_blank" rel="noreferrer">Source</a>
       </li>
       <BinaryHeapComponent />
+      <li>
+        事件总线（EventBus）
+      </li>
+      <EventBusComponent />
     </ol>
   </div>);
 }

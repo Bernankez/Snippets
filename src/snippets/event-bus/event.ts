@@ -26,18 +26,3 @@ export function $off(event: string, cb?: (...args) => any) {
     events.delete(event);
   }
 }
-
-$on("click", test);
-$on("click", (e) => {
-  console.log("dd");
-});
-
-function test(e) {
-  console.log(e);
-}
-
-$emit("click", { x: 0, y: 0 }); // {x:0,y:0} dd
-$off("click", test);
-$emit("click", { x: 0, y: 0 }); // dd
-$off("click");
-$emit("click", { x: 0, y: 0 }); //
