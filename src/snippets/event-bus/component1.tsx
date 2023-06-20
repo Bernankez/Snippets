@@ -1,5 +1,5 @@
 import { createSignal } from "solid-js";
-import { $emit } from "./event";
+import { $emit } from "./event-bus";
 
 export function Component1() {
   const emit = () => {

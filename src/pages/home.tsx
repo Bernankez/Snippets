@@ -48,7 +48,7 @@ export function Home() {
           事件总线（EventBus）
           <a
             class="ref"
-            href="https://github.com/Bernankez/Snippets/blob/master/src/snippets/event-bus/event-bus.component.tsx"
+            href="https://github.com/Bernankez/Snippets/blob/master/src/snippets/event-bus/event-bus.ts"
             target="_blank"
             rel="noreferrer"
           >
@@ -60,7 +60,7 @@ export function Home() {
           二分搜索（BinarySearch）
           <a
             class="ref"
-            href="https://github.com/Bernankez/Snippets/blob/master/src/snippets/binary-search/binary-search.component.tsx"
+            href="https://github.com/Bernankez/Snippets/blob/master/src/snippets/binary-search/binary-search.ts"
             target="_blank"
             rel="noreferrer"
           >
@@ -68,7 +68,17 @@ export function Home() {
           </a>
         </li>
         <BinarySearchComponent />
-        <li>快速排序</li>
+        <li>
+          快速排序
+          <a
+            class="ref"
+            href="https://github.com/Bernankez/Snippets/blob/master/src/snippets/quick-sort/quick-sort.ts"
+            target="_blank"
+            rel="noreferrer"
+          >
+            Source
+          </a>
+        </li>
         <QuickSortComponent />
       </ol>
     </div>
