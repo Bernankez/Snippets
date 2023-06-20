@@ -23,6 +23,7 @@ export function BinaryHeapComponent() {
   function generate() {
     const el = inputs()
       .split(",")
+      .filter(item => !!item)
       .map(item => Number(item.trim()) || 0);
     heap = new BinaryHeap((a, b) => {
       if (type() === "max") { return a > b; }

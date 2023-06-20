@@ -7,27 +7,23 @@ export class BinarySearch {
 
   search(n: number) {
     this.n = n;
-    return this._search(0, this.elements.length);
+    return this._search(0, this.elements.length - 1);
   }
 
-  private _search(startIndex: number, endIndex: number): number | undefined {
+  private _search(startIndex: number, endIndex: number): number {
     if (isDefined(this.n)) {
-      const length = endIndex - startIndex + 1;
-      if (length >= 2) {
-        const halfIndex = Math.floor(length / 2) - 1;
-        const firstIndex = this._search(startIndex, startIndex + halfIndex + 1);
-        if (isDefined(firstIndex)) {
-          return firstIndex;
-        }
-        const secondIndex = this._search(startIndex + halfIndex + 1, endIndex + 1);
-        if (isDefined(secondIndex)) {
-          return secondIndex;
-        }
-        return undefined;
-      } else if (length === 1 && this.elements[startIndex] === this.n) {
-        return startIndex;
+      if (startIndex === endIndex) {
+        return this.elements[startIndex] === this.n ? startIndex : -1;
+      }
+      const halfIndex = Math.floor((endIndex - startIndex) / 2) + startIndex;
+      if (this.elements[halfIndex] === this.n) {
+        return halfIndex;
+      } else if (this.elements[halfIndex] < this.n) {
+        return this._search(halfIndex + 1 > endIndex ? endIndex : halfIndex + 1, endIndex);
+      } else {
+        return this._search(startIndex, halfIndex - 1 < startIndex ? startIndex : halfIndex - 1);
       }
     }
-    return undefined;
+    return -1;
   }
 }
