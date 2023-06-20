@@ -1,6 +1,7 @@
 import { BinaryHeapComponent } from "@/snippets/binary-heap/binary-heap.component";
 import { BinarySearchComponent } from "@/snippets/binary-search/binary-search.component";
 import { EventBusComponent } from "@/snippets/event-bus/event-bus.component";
+import { QuickSortComponent } from "@/snippets/quick-sort/quick-sort.component";
 
 const styles = `
 @font-face {
@@ -43,10 +44,32 @@ export function Home() {
           </a>
         </li>
         <BinaryHeapComponent />
-        <li>事件总线（EventBus）</li>
+        <li>
+          事件总线（EventBus）
+          <a
+            class="ref"
+            href="https://github.com/Bernankez/Snippets/blob/master/src/snippets/event-bus/event-bus.component.tsx"
+            target="_blank"
+            rel="noreferrer"
+          >
+            Source
+          </a>
+        </li>
         <EventBusComponent />
-        <li>二分搜索（BinarySearch）</li>
+        <li>
+          二分搜索（BinarySearch）
+          <a
+            class="ref"
+            href="https://github.com/Bernankez/Snippets/blob/master/src/snippets/binary-search/binary-search.component.tsx"
+            target="_blank"
+            rel="noreferrer"
+          >
+            Source
+          </a>
+        </li>
         <BinarySearchComponent />
+        <li>快速排序</li>
+        <QuickSortComponent />
       </ol>
     </div>
   );

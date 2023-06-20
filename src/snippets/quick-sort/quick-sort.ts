@@ -19,11 +19,7 @@ export function QuickSort(elements: number[]): number[] {
       right--;
     }
     elements[flag] = pivot;
-    console.log("before", elements);
-    console.log(pivot);
-    const res = QuickSort(elements.slice(0, flag)).concat(pivot).concat(QuickSort(elements.slice(flag + 1, elements.length)));
-    console.log("after", res);
-    return res;
+    return QuickSort(elements.slice(0, flag)).concat(pivot).concat(QuickSort(elements.slice(flag + 1, elements.length)));
   } else if (elements.length === 2) {
     const [a, b] = elements;
     if (a > b) {

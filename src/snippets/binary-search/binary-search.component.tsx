@@ -1,4 +1,5 @@
 import { createSignal } from "solid-js";
+import { QuickSort } from "../quick-sort/quick-sort";
 import { BinarySearch } from "./binary-search";
 
 export function BinarySearchComponent() {
@@ -16,7 +17,12 @@ export function BinarySearchComponent() {
         .filter(item => !!item)
         .map(item => Number(item.trim()) || 0),
     );
-    binarySearch = new BinarySearch(elements());
+  }
+
+  function sort() {
+    const sorted = QuickSort(elements());
+    setElements(sorted);
+    binarySearch = new BinarySearch(sorted);
   }
 
   function search() {
@@ -36,6 +42,7 @@ export function BinarySearchComponent() {
           onInput={e => setInput(e.target.value)}
         />
         <button onClick={generate}>生成</button>
+        <button onClick={sort}>排序</button>
         <input
           class="w-15"
           value={searchValue()}
