@@ -2,6 +2,8 @@ import { render } from "solid-js/web";
 import "./style.css";
 import "virtual:uno.css";
 import "@unocss/reset/tailwind-compat.css";
+import { time } from "virtual:build-info";
+import dayjs from "dayjs";
 import { Home } from "./pages/home";
 
 const root = document.getElementById("root");
@@ -17,11 +19,7 @@ render(
     <div>
       <Home />
       <div class="m-t-3 flex items-center justify-center flex-gap-2 text-4.5 text-gray-50">
-        <a
-          href="https://keke.cc"
-          target="_blank"
-          rel="noreferrer"
-        >
+        <a href="https://keke.cc" target="_blank" rel="noreferrer">
           @科科cole
         </a>
         <span class="font-bold">·</span>
@@ -31,6 +29,8 @@ render(
           class="i-fa6-brands:github-alt text-6"
           rel="noreferrer"
         ></a>
+        <span class="font-bold">·</span>
+        <samp>上次更新于 {dayjs(time).format("YYYY-MM-DD HH:mm:ss")}</samp>
       </div>
     </div>
   ),

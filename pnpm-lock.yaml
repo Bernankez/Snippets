@@ -1,9 +1,5 @@
 lockfileVersion: '6.0'
 
-settings:
-  autoInstallPeers: true
-  excludeLinksFromLockfile: false
-
 dependencies:
   '@iconify-json/fa6-brands':
     specifier: ^1.1.11
@@ -14,6 +10,9 @@ dependencies:
   '@unocss/reset':
     specifier: ^0.53.1
     version: 0.53.1
+  dayjs:
+    specifier: ^1.11.8
+    version: 1.11.8
   javascript-state-machine:
     specifier: ^3.1.0
     version: 3.1.0
@@ -2432,6 +2431,10 @@ packages:
       whatwg-mimetype: 3.0.0
       whatwg-url: 11.0.0
     dev: true
+
+  /dayjs@1.11.8:
+    resolution: {integrity: sha512-LcgxzFoWMEPO7ggRv1Y2N31hUf2R0Vj7fuy/m+Bg1K8rr+KAs1AEy4y9jd5DXe8pbHgX+srkHNS7TH6Q6ZhYeQ==}
+    dev: false
 
   /debug@2.2.0(supports-color@1.2.0):
     resolution: {integrity: sha512-X0rGvJcskG1c3TgSCPqHJ0XJgwlcvOC7elJ5Y0hYuKBZoVqWpAMfLOeIh2UI/DCQ5ruodIjvsugZtjUYUw2pUw==}
@@ -5514,7 +5517,7 @@ packages:
     dependencies:
       htmlparser2: 3.10.1
       postcss: 7.0.39
-      postcss-syntax: 0.36.2(postcss-html@1.5.0)(postcss-less@6.0.0)(postcss-scss@4.0.6)(postcss@8.4.24)
+      postcss-syntax: 0.36.2(postcss-html@0.36.0)(postcss-jsx@0.36.4)(postcss-less@3.1.4)(postcss-markdown@0.36.0)(postcss-scss@2.1.1)(postcss@7.0.39)
     dev: true
 
   /postcss-html@1.5.0:
@@ -5535,7 +5538,7 @@ packages:
     dependencies:
       '@babel/core': 7.22.5
       postcss: 7.0.39
-      postcss-syntax: 0.36.2(postcss-html@1.5.0)(postcss-less@6.0.0)(postcss-scss@4.0.6)(postcss@8.4.24)
+      postcss-syntax: 0.36.2(postcss-html@0.36.0)(postcss-jsx@0.36.4)(postcss-less@3.1.4)(postcss-markdown@0.36.0)(postcss-scss@2.1.1)(postcss@7.0.39)
     transitivePeerDependencies:
       - supports-color
     dev: true
@@ -5563,7 +5566,7 @@ packages:
       postcss-syntax: '>=0.36.0'
     dependencies:
       postcss: 7.0.39
-      postcss-syntax: 0.36.2(postcss-html@1.5.0)(postcss-less@6.0.0)(postcss-scss@4.0.6)(postcss@8.4.24)
+      postcss-syntax: 0.36.2(postcss-html@0.36.0)(postcss-jsx@0.36.4)(postcss-less@3.1.4)(postcss-markdown@0.36.0)(postcss-scss@2.1.1)(postcss@7.0.39)
       remark: 10.0.1
       unist-util-find-all-after: 1.0.5
     dev: true
@@ -5658,7 +5661,7 @@ packages:
       postcss: 8.4.24
     dev: true
 
-  /postcss-syntax@0.36.2(postcss-html@1.5.0)(postcss-less@6.0.0)(postcss-scss@4.0.6)(postcss@8.4.24):
+  /postcss-syntax@0.36.2(postcss-html@0.36.0)(postcss-jsx@0.36.4)(postcss-less@3.1.4)(postcss-markdown@0.36.0)(postcss-scss@2.1.1)(postcss@7.0.39):
     resolution: {integrity: sha512-nBRg/i7E3SOHWxF3PpF5WnJM/jQ1YpY9000OaVXlAQj6Zp/kIqJxEDWIZ67tAd7NLuk7zqN4yqe9nc0oNAOs1w==}
     peerDependencies:
       postcss: '>=5.0.0'
@@ -5679,10 +5682,12 @@ packages:
       postcss-scss:
         optional: true
     dependencies:
-      postcss: 8.4.24
-      postcss-html: 1.5.0
-      postcss-less: 6.0.0(postcss@8.4.24)
-      postcss-scss: 4.0.6(postcss@8.4.24)
+      postcss: 7.0.39
+      postcss-html: 0.36.0(postcss-syntax@0.36.2)(postcss@7.0.39)
+      postcss-jsx: 0.36.4(postcss-syntax@0.36.2)(postcss@7.0.39)
+      postcss-less: 3.1.4
+      postcss-markdown: 0.36.0(postcss-syntax@0.36.2)(postcss@7.0.39)
+      postcss-scss: 2.1.1
     dev: true
 
   /postcss-value-parser@3.3.1:
@@ -6670,7 +6675,7 @@ packages:
       postcss-sass: 0.3.5
       postcss-scss: 2.1.1
       postcss-selector-parser: 3.1.2
-      postcss-syntax: 0.36.2(postcss-html@1.5.0)(postcss-less@6.0.0)(postcss-scss@4.0.6)(postcss@8.4.24)
+      postcss-syntax: 0.36.2(postcss-html@0.36.0)(postcss-jsx@0.36.4)(postcss-less@3.1.4)(postcss-markdown@0.36.0)(postcss-scss@2.1.1)(postcss@7.0.39)
       postcss-value-parser: 3.3.1
       resolve-from: 4.0.0
       signal-exit: 3.0.7
@@ -7532,3 +7537,7 @@ packages:
     resolution: {integrity: sha512-9bnSc/HEW2uRy67wc+T8UwauLuPJVn28jb+GtJY16iiKWyvmYJRXVT4UamsAEGQfPohgr2q4Tq0sQbQlxTfi1g==}
     engines: {node: '>=12.20'}
     dev: true
+
+settings:
+  autoInstallPeers: true
+  excludeLinksFromLockfile: false
