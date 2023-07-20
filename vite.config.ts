@@ -7,7 +7,13 @@ import UnoCSS from "unocss/vite";
 import BuildInfo from "./plugins/build-info";
 
 export default defineConfig({
-  plugins: [solidPlugin(), UnoCSS(), BuildInfo()],
+  plugins: [
+    solidPlugin({
+      ssr: true,
+    }),
+    UnoCSS(),
+    BuildInfo(),
+  ],
   server: {
     port: 3000,
   },

@@ -1,21 +1,9 @@
-import { render } from "solid-js/web";
-import "./style.css";
-import "virtual:uno.css";
-import "@unocss/reset/tailwind-compat.css";
-import { time } from "virtual:build-info";
 import dayjs from "dayjs";
+import { time } from "virtual:build-info";
 import { Home } from "./pages/home";
 
-const root = document.getElementById("root");
-
-if (import.meta.env.DEV && !(root instanceof HTMLElement)) {
-  throw new Error(
-    "Root element not found. Did you forget to add it to your index.html? Or maybe the id attribute got misspelled?",
-  );
-}
-
-render(
-  () => (
+export function App() {
+  return (
     <div>
       <Home />
       <div class="m-t-3 flex items-center justify-center flex-gap-2 text-4.5 text-gray-50">
@@ -30,9 +18,9 @@ render(
           rel="noreferrer"
         ></a>
         <span class="font-bold">·</span>
+        {/* TODO time disappeared */}
         <samp>上次更新于 {dayjs(time).format("YYYY-MM-DD HH:mm:ss")}</samp>
       </div>
     </div>
-  ),
-  root!,
-);
+  );
+}
