@@ -18,7 +18,6 @@ export function App() {
           rel="noreferrer"
         ></a>
         <span class="font-bold">·</span>
-        {/* TODO time disappeared */}
         <samp>上次更新于 {dayjs(time).format("YYYY-MM-DD HH:mm:ss")}</samp>
       </div>
     </div>

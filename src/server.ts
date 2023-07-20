@@ -25,10 +25,9 @@ async function createServer() {
     app.use(fromNodeMiddleware(vite.middlewares));
   } else {
     const compression = (await import("compression")).default;
-    const sirv = (await import("sirv")).default;
+    const serveStatic = (await import("serve-static")).default;
     app.use(fromNodeMiddleware(() => compression()));
-    // TODO exclude '/' from assets
-    app.use(fromNodeMiddleware(sirv(resolve(root, "./dist/client"))));
+    app.use(fromNodeMiddleware(serveStatic(resolve(root, "./dist/client"), { index: false })));
   }
 
   app.use("*", eventHandler(async (event) => {
@@ -54,7 +53,7 @@ async function createServer() {
       vite.ssrFixStacktrace(e);
       throw createError({
         statusCode: 500,
-        statusMessage: e.stack,
+        message: e.stack,
       });
     }
   }));
