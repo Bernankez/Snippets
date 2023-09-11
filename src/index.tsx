@@ -18,7 +18,7 @@ render(
   () => (
     <div>
       <Home />
-      <div class="m-t-3 flex items-center justify-center flex-gap-2 text-4.5 text-gray-50">
+      <div class="m-t-3 flex cursor-default items-center justify-center flex-gap-2 text-4.5 text-gray-50">
         <a href="https://keke.cc" target="_blank" rel="noreferrer">
           @科科cole
         </a>

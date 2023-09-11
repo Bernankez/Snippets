@@ -2,6 +2,7 @@ import { BinaryHeapComponent } from "@/snippets/binary-heap/binary-heap.componen
 import { BinarySearchComponent } from "@/snippets/binary-search/binary-search.component";
 import { EventBusComponent } from "@/snippets/event-bus/event-bus.component";
 import { QuickSortComponent } from "@/snippets/quick-sort/quick-sort.component";
+import { TinyCompilerComponent } from "@/snippets/tiny-compiler/tiny-compiler.component";
 
 const styles = `
 @font-face {
@@ -80,6 +81,26 @@ export function Home() {
           </a>
         </li>
         <QuickSortComponent />
+        <li>
+          迷你编译器
+          <a
+            class="ref"
+            href="https://github.com/Bernankez/Snippets/blob/master/src/snippets/tiny-compiler/compiler.ts"
+            target="_blank"
+            rel="noreferrer"
+          >
+            Source
+          </a>
+          <a
+            class="ref"
+            href="https://github.com/jamiebuilds/the-super-tiny-compiler/blob/master/the-super-tiny-compiler.js"
+            target="_blank"
+            rel="noreferrer"
+          >
+            Reference
+          </a>
+        </li>
+        <TinyCompilerComponent />
       </ol>
     </div>
   );

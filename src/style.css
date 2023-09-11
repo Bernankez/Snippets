@@ -29,7 +29,8 @@ pre {
   @apply bg-dark-900 p-5 rounded-2 whitespace-pre-wrap;
 }
 
-input {
+input,
+textarea {
   @apply bg-dark-900 p-x-2! p-y-1! box-border text-white rounded-1;
 }
 
