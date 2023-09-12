@@ -4,6 +4,7 @@ import { compiler } from "./compiler";
 export function TinyCompilerComponent() {
   const [code, setCode] = createSignal("");
   const [output, setOutput] = createSignal("");
+  const defaultCode = "(add 2 (subtract 4 2))";
 
   function compileCode() {
     try {
@@ -14,15 +15,23 @@ export function TinyCompilerComponent() {
     }
   }
 
+  function handleInputKeydown(e: KeyboardEvent) {
+    if (e.key === "Tab" && !code()) {
+      e.preventDefault();
+      setCode(defaultCode);
+    }
+  }
+
   return (
     <div class="flex flex-col flex-gap-3">
       <div class="flex flex-gap-3">
         <textarea
           class="w-full"
           rows={4}
-          onChange={e => setCode(e.currentTarget.value)}
-          placeholder="(add 2 (subtract 4 2))"
+          onInput={e => setCode(e.currentTarget.value)}
+          placeholder={defaultCode}
           value={code()}
+          onKeyDown={handleInputKeydown}
         ></textarea>
         <button onClick={compileCode}>compile</button>
       </div>
